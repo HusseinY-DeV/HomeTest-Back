@@ -15,3 +15,15 @@ Route::group(["prefix" => "admin","middleware" => "assign.guard:user"],function 
     Route::post('/',"UsersController@create");
     Route::delete('/{id}',"UsersController@destroy");
 });
+
+Route::group(["prefix" => "verify/admin","middleware" => "assign.guard:user"],function () {
+    Route::get('',"VerifyTokenController@users");
+});
+
+
+// _______________________________________________________
+
+// Posts api routes
+
+Route::group(["prefix" => "admin","middleware" => "assign.guard:user"],function () {
+});
