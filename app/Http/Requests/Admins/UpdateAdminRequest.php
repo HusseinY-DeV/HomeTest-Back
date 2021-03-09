@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admins;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddAdminRequest extends FormRequest
+class UpdateAdminRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,19 +24,18 @@ class AddAdminRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'bail|required|min:4|string|unique:users,username,except,id',
-            'password' => 'bail|required|min:8|string',
+            "username" => "bail|required|min:4",
+            "password" => "min:8",
         ];
     }
 
     public function messages()
     {
         return [
-            "username.min" => "Make sure your username is greater than 4 characters",
             "username.required" => "The username field is required",
-            "username.unique" => "Username already exists",
-            "password.min" => "Make sure your password is greater than 8 characters",
-            "password.required" => "The password field is required",
+            "username.min" => "The username field should be at least 4 characters",
+            "password.min" => "The password field should be at least 8 characters",
         ];
     }
+
 }

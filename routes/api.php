@@ -25,7 +25,7 @@ Route::group(["prefix" => "verify/admin","middleware" => "assign.guard:user"],fu
 
 // _______________________________________________________
 
-// Posts api routes
+// Posts api routes (Admins)
 
 Route::group(["prefix" => "post","middleware" => "assign.guard:user"],function () {
     Route::post("/admin/{id}","PostsController@create");
@@ -33,3 +33,14 @@ Route::group(["prefix" => "post","middleware" => "assign.guard:user"],function (
     Route::delete("/{id}","PostsController@destroy");
     Route::get("/{id}","PostsController@getById");
 });
+
+
+// Tests api routes (Admins)
+
+Route::group(["prefix" => "tests","middleware" => "assign.guard:user"],function () {
+    Route::get("/","TestsController@index");
+    Route::post("/","TestsController@create");
+    Route::put("/{id}","TestsController@edit");
+    Route::delete("/{id}","TestsController@destroy");
+});
+

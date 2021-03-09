@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\AddPostRequest;
-use App\Http\Requests\UpdatePostRequest;
+use App\Http\Requests\Posts\AddPostRequest;
+use App\Http\Requests\Posts\UpdatePostRequest;
 use App\Post;
 use Illuminate\Support\Facades\Storage;
 
