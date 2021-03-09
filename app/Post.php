@@ -10,7 +10,7 @@ class Post extends Model
     protected $fillable = ['title','description','image','user_id','posted_date'];
     public $timestamps = false;
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo('App\User');
     }

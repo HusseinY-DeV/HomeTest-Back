@@ -14,6 +14,8 @@ Route::group(["prefix" => "admin","middleware" => "assign.guard:user"],function 
     Route::post('/logout',"UsersController@logout");
     Route::post('/',"UsersController@create");
     Route::delete('/{id}',"UsersController@destroy");
+    Route::get("/my-posts/{id}","PostsController@getPostsById");
+    Route::get("/all/all-posts","PostsController@index");
 });
 
 Route::group(["prefix" => "verify/admin","middleware" => "assign.guard:user"],function () {
@@ -25,5 +27,9 @@ Route::group(["prefix" => "verify/admin","middleware" => "assign.guard:user"],fu
 
 // Posts api routes
 
-Route::group(["prefix" => "admin","middleware" => "assign.guard:user"],function () {
+Route::group(["prefix" => "post","middleware" => "assign.guard:user"],function () {
+    Route::post("/admin/{id}","PostsController@create");
+    Route::post("/{id}","PostsController@edit");
+    Route::delete("/{id}","PostsController@destroy");
+    Route::get("/{id}","PostsController@getById");
 });

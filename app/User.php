@@ -13,7 +13,7 @@ class User extends Authenticatable implements JWTSubject
     protected $table = "users";
     public $timestamps = false;
 
-    public function posts()
+    public function post()
     {
         return $this->hasMany('App\Post');
     }
