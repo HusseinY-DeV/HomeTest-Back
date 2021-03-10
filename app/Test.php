@@ -10,9 +10,8 @@ class Test extends Model
     protected $fillable = ['name','price','quantity'];
     public $timestamps = false;
 
-
-    public function booking()
+    public function patient()
     {
-        return $this->hasMany('App\Booking');
+        return $this->belongsToMany('App\Patient')->withPivot(["id","booked_date","date"]);
     }
 }

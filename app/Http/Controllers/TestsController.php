@@ -9,6 +9,7 @@ use App\Test;
 
 class TestsController extends Controller
 {
+
     public function index()
     {
         // This function returns all the tests in the tests table
