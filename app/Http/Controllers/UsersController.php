@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admins\AddAdminRequest;
 use App\Http\Requests\Admins\UpdateAdminRequest;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
@@ -29,7 +30,7 @@ class UsersController extends Controller
     public function index()
     {
         // This function will get us all the admins in the database
-       $admins = User::all();
+       $admins = User::paginate(5);
        if($admins)
        {
         return response()->json(["status"=>"success","response" => $admins],200);
@@ -54,12 +55,7 @@ class UsersController extends Controller
     public function edit($id,UpdateAdminRequest $request)
     {
         // This function will let us delete a user according to his id
-        $user = User::findOrFail($id);
-        $user->update(["username" => $request->username]);
-        if($request->password)
-        {
-            $user->update(["password" => $request->password]);
-        }
+        DB::update('UPDATE users SET password = ? WHERE users.id = ?', [bcrypt($request->password),$id]);
         return response()->json(["status"=>"success","response" => "User was updated successfully !"],200);
     }
 
@@ -80,7 +76,7 @@ class UsersController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        return response()->json(["status"=>"success","response" =>$this->respondWithToken($token)],200);
     }
 
     public function logout()

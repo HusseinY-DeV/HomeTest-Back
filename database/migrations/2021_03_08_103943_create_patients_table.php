@@ -20,9 +20,7 @@ class CreatePatientsTable extends Migration
             $table->string("username");
             $table->string("phone_number");
             $table->string("password");
-            $table->string('city');
-            $table->string('building');
-            $table->string('street');
+            $table->integer("location_id");
         });
     }
 

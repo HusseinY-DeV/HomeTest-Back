@@ -11,9 +11,17 @@ class BookingsController extends Controller
 {
     public function book(Request $request,$id)
     {
-        $patient_table = DB::insert('INSERT INTO patient_test (test_id,patient_id,booked_date,date) values (?, ?, ?,?)', [$request->test,$id,now(),$request->date]);
+        $book = Patient::find($id);
 
-        return response()->json(["status" => "success","response" => "Booking was added"]);
+        if($book->location_id)
+        {
+            foreach ($request->tests as  $test) {
+                $book->test()->attach($test, ['date' => $request->date,"booked_date" => now()]);
+            }
+        }else {
+            return response()->json(["status" => "redirect","response" => "No location was available for this patient"]);
+        }
+        return response()->json(["status" => "success","response" => "Your requests were submitted successfully !"]);
     }
 
     public function getMyBookings($id)
@@ -24,7 +32,13 @@ class BookingsController extends Controller
 
     public function index()
     {
-        $post = Patient::with(['test'])->paginate(10);
+        $post = Patient::with(['test','location'])->paginate(10);
+        return response()->json(["status" => "success","response" => $post]);
+    }
+
+    public function show($id)
+    {
+        $post = Patient::with(['test','location'])->where("id",$id)->get();
         return response()->json(["status" => "success","response" => $post]);
     }
 

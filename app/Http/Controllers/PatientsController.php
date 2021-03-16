@@ -6,13 +6,30 @@ use Illuminate\Http\Request;
 use App\Http\Requests\EditPatientRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Patients\RegisterPatientRequest;
+use App\Http\Requests\AddLocationRequest;
 use App\Patient;
+use App\Location;
 use Illuminate\Support\Facades\DB;
+
 
 class PatientsController extends Controller
 {
 
 
+
+    public function addLocation(AddLocationRequest $request,$id)
+    {
+        $location = new Location();
+        $location->city = $request->city;
+        $location->street = $request->street;
+        $location->building = $request->building;
+        $location->save();
+
+        DB::update('UPDATE patients SET location_id = ? WHERE patients.id = ?', [$location->id,$id]);
+
+        return response()->json(["status" => "success","response" => "Location was added successfully !"]);
+
+    }
 
     public function editPhone(Request $request,$id)
     {
@@ -38,13 +55,11 @@ class PatientsController extends Controller
         $patient->first_name = $request->first_name;
         $patient->last_name = $request->last_name;
         $patient->username = $request->username;
-        $patient->password= $request->password;
-        $patient->phone_number= $request->phone_number;
-        $patient->street= $request->street;
-        $patient->building= $request->building;
-        $patient->city= $request->city;
+        $patient->password = $request->password;
+        $patient->phone_number = $request->phone_number;
+        $patient->location_id = 0;
         $patient->save();
-        $token = auth()->login($patient);
+        $token = Auth::guard('patient')->login($patient);
         return response()->json(["status" => "success","response" => $this->respondWithToken($token)]);
     }
 

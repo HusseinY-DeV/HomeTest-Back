@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Posts\AddPostRequest;
 use App\Http\Requests\Posts\UpdatePostRequest;
 use App\Post;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
@@ -24,7 +25,7 @@ class PostsController extends Controller
 
     public function getPostsById($id)
     {
-        $posts = Post::with(["user"])->where("user_id",$id)->paginate(10);
+        $posts = Post::with(["user"])->where("user_id",$id)->paginate(8);
         if($posts)
         {
             return response()->json(["status" => "success","response" => $posts],200);
@@ -39,11 +40,10 @@ class PostsController extends Controller
             return response()->json(["status" => "success","response" => $post],200);
         }
     }
-
     public function create(AddPostRequest $request, $id)
     {
         // This function will add  a post into the posts table
-       $post = new Post();
+        $post = new Post();
        $post->title = $request->title;
        $post->posted_date = now();
        $post->description = $request->description;
@@ -64,20 +64,16 @@ class PostsController extends Controller
     public function edit(UpdatePostRequest $request,$id)
     {
         // This function will update an available post
-        $post = Post::findOrFail($id);
-        $post->update(["title" => $request->title]);
-        $post->update(["description" => $request->description]);
-        $post->update(["posted_date" => now()]);
+
         $path = "";
         if ($request->file("image")) {
             $path = Storage::disk('public')->put('', $request->file("image"));
         }
         if ($path != "") {
-            $post->update(['image' => $path]);
-         } else {
-             $post->update(["image" => $post->image]);
+            $post = DB::update('UPDATE posts SET title = ?,description = ?,image = ? WHERE posts.id = ?', [$request->title,$request->description,$path,$id]);
+        } else {
+            $post = DB::update('UPDATE posts SET title = ?,description = ? WHERE posts.id = ?', [$request->title,$request->description,$id]);
          }
-         $post->update(["user_id" => $post->user_id]);
 
          return response()->json(["status" => "success","response" => "Post was updated successfully !"]);
     }

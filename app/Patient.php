@@ -4,17 +4,22 @@ namespace App;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class Patient extends Authenticatable implements JWTSubject
 {
+
     protected $table = "patients";
-    protected $fillable = ['first_name','last_name','username','phone_number','password','city','building','street'];
+    protected $fillable = ['first_name','last_name','username','phone_number','password'];
     public $timestamps = false;
 
     public function test()
     {
         return $this->belongsToMany("App\Test")->withPivot(["id","date","booked_date"]);
+    }
+
+    public function location()
+    {
+        return $this->belongsTo("App\Location");
     }
 
     public function getJWTIdentifier()

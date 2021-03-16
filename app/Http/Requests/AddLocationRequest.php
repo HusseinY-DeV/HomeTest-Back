@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admins;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAdminRequest extends FormRequest
+class AddLocationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +24,9 @@ class UpdateAdminRequest extends FormRequest
     public function rules()
     {
         return [
-            "password" => "min:8",
+            "city" => "bail|required",
+            "building" => "bail|required",
+            "street" => "bail|required"
         ];
     }
-
-    public function messages()
-    {
-        return [
-            "password.min" => "The password field should be at least 8 characters",
-        ];
-    }
-
 }
