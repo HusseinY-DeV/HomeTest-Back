@@ -16,6 +16,15 @@ class PatientsController extends Controller
 {
 
 
+    public function show($id)
+    {
+        $patient = Patient::with("location")->where("id",$id)->get();
+
+        if($patient)
+        {
+            return response()->json(["status" => "success","response" => $patient]);
+        }
+    }
 
     public function addLocation(AddLocationRequest $request,$id)
     {
@@ -39,14 +48,14 @@ class PatientsController extends Controller
             return response()->json(["status" => "fail", "response" => "Phone number is invalid"]);
         }
         DB::update('UPDATE patients SET patients.phone_number = ? WHERE patients.id = ?', [$request->phone_number,$id]);
-        return response()->json(["status" => "success","response" => "Your number was added successfully"]);
+        return response()->json(["status" => "success","response" => "Your number was updated successfully"]);
     }
 
     public function editPassword(EditPatientRequest $request,$id)
     {
         // This function lets patient user to edit his or her account
         DB::update('UPDATE patients SET patients.password = ? WHERE patients.id = ?', [bcrypt($request->password),$id]);
-        return response()->json(["status" => "success","response" => "Your password was added successfully"]);
+        return response()->json(["status" => "success","response" => "Your password was updated successfully"]);
     }
 
     public function register(RegisterPatientRequest $request)
@@ -68,7 +77,7 @@ class PatientsController extends Controller
         // This function checks if a user exist so we can login him in with a token
         $credentials = request(['username', 'password']);
         if (!$token = Auth::guard('patient')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['status' => 'fail',"response" => "Wrong username or password"], 401);
         }
 
         return response()->json(["status" => "success","response" => $this->respondWithToken($token)]);

@@ -22,6 +22,16 @@ class PostsController extends Controller
         }
     }
 
+    public function indexAll()
+    {
+        // This gets us all the posts inside the posts table
+        $posts = Post::all();
+        if($posts)
+        {
+            return response()->json(["status" => "success","response" => $posts],200);
+        }
+    }
+
 
     public function getPostsById($id)
     {

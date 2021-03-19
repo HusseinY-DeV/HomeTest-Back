@@ -40,7 +40,7 @@ class RegisterPatientRequest extends FormRequest
             "first_name.alpha" => "Names can only contain alphabatical characters",
             "last_name.alpha" => "Names can only contain alphabatical characters",
             "username.required" => "Username is required",
-            "username.min" => "Username most be at least 4 characters long",
+            "username.min" => "Username must be at least 4 characters long",
             "username.unique" => "Username already exists",
             "password.required" => "Password is required ",
             "password.min" => "Password must be at least 8 characters",

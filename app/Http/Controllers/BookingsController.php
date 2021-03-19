@@ -9,15 +9,15 @@ use App\Patient;
 
 class BookingsController extends Controller
 {
-    public function book(Request $request,$id)
+    public function book(Request $request,$ID,$id)
     {
-        $book = Patient::find($id);
-
+        $book = Patient::find($ID);
         if($book->location_id)
         {
-            foreach ($request->tests as  $test) {
-                $book->test()->attach($test, ['date' => $request->date,"booked_date" => now()]);
-            }
+
+            DB::update('UPDATE tests set tests.quantity = tests.quantity-1 WHERE tests.id = ?', [$id]);
+            $book->test()->attach($id, ['date' => now(),"booked_date" => now()]);
+
         }else {
             return response()->json(["status" => "redirect","response" => "No location was available for this patient"]);
         }

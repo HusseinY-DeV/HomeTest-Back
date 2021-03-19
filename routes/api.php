@@ -66,6 +66,8 @@ Route::group(["prefix" => "bookings","middleware" => "assign.guard:user"],functi
 // Patient api routes
 
 Route::group(["prefix" => "patient","middleware" => "assign.guard:patient"],function () {
+
+    Route::get("/{id}","PatientsController@show");
     Route::put("/phone/{id}","PatientsController@editPhone");
     Route::put("/password/{id}","PatientsController@editPassword");
     Route::post("/logout","PatientsController@logout");
@@ -73,13 +75,10 @@ Route::group(["prefix" => "patient","middleware" => "assign.guard:patient"],func
 
 // Posts api routes (Admins)
 
-Route::group(["prefix" => "patient/post","middleware" => "assign.guard:patient"],function () {
-    Route::get("","PostsController@index");
+Route::group(["prefix" => "posts","middleware" => "assign.guard:patient"],function () {
+    Route::get("","PostsController@indexAll");
     Route::get("/{id}","PostsController@getById");
 });
-
-
-
 
 
 Route::group(["prefix" => "location/patient","middleware" => "assign.guard:patient"],function () {
@@ -91,7 +90,7 @@ Route::group(["prefix" => "location/patient","middleware" => "assign.guard:patie
 
 // Tests api routes (Patients)
 
-Route::group(["prefix" => "patient/tests","middleware" => "assign.guard:patient"],function () {
+Route::group(["prefix" => "tests/patient","middleware" => "assign.guard:patient"],function () {
 
     Route::get("","TestsController@index");
 
@@ -100,8 +99,8 @@ Route::group(["prefix" => "patient/tests","middleware" => "assign.guard:patient"
 // Bookings api routes (Patients)
 
 Route::group(["prefix" => "patient/bookings","middleware" => "assign.guard:patient"],function () {
-    Route::post("/{id}","BookingsController@book");
-    Route::get("/{id}","BookingsController@getMyBookings");
+    Route::post("/{ID}/{id}","BookingsController@book");
 });
 
+Route::get("/my/{id}","BookingsController@getMyBookings");
 
