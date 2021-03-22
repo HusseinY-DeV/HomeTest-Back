@@ -14,11 +14,12 @@ class CreatePatientTestTable extends Migration
     public function up()
     {
         Schema::create('patient_test', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements("id");
             $table->date("booked_date");
             $table->string("date");
             $table->integer("patient_id");
             $table->integer("test_id");
+            $table->string("checked_out");
         });
     }
 

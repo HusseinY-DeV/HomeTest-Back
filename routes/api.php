@@ -62,6 +62,7 @@ Route::group(["prefix" => "bookings","middleware" => "assign.guard:user"],functi
 });
 
 
+Route::delete("/admindeliver/{id}","BookingsController@adminDeliver");
 
 // Patient api routes
 
@@ -103,4 +104,6 @@ Route::group(["prefix" => "patient/bookings","middleware" => "assign.guard:patie
 });
 
 Route::get("/my/{id}","BookingsController@getMyBookings");
+Route::put("/deliver/{id}","BookingsController@deliver");
+Route::delete("/book/{id}/{tId}","BookingsController@deleteBook");
 
