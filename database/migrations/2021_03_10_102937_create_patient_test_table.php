@@ -20,6 +20,7 @@ class CreatePatientTestTable extends Migration
             $table->integer("patient_id");
             $table->integer("test_id");
             $table->string("checked_out");
+            $table->string("delivery_status");
         });
     }
 

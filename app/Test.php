@@ -12,6 +12,6 @@ class Test extends Model
 
     public function patient()
     {
-        return $this->belongsToMany('App\Patient')->withPivot(["id","booked_date","date","checked_out"]);
+        return $this->belongsToMany('App\Patient')->withPivot(["id","booked_date","date","checked_out","delivery_status"]);
     }
 }

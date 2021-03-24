@@ -14,7 +14,7 @@ class Patient extends Authenticatable implements JWTSubject
 
     public function test()
     {
-        return $this->belongsToMany("App\Test")->withPivot(["id","date","booked_date","checked_out"]);
+        return $this->belongsToMany("App\Test")->withPivot(["id","date","booked_date","checked_out","delivery_status"]);
     }
 
     public function location()

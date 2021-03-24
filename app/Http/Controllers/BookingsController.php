@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Bookings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Test;
 use App\Patient;
 
 class BookingsController extends Controller
@@ -16,8 +15,8 @@ class BookingsController extends Controller
         if($book->location_id)
         {
 
-            DB::update('UPDATE tests set tests.quantity = tests.quantity-1 WHERE tests.id = ?', [$id]);
-            $book->test()->attach($id, ['date' => now(),"booked_date" => now(),"checked_out" => "false"]);
+            DB::update('UPDATE tests SET tests.quantity = tests.quantity-1 WHERE tests.id = ?', [$id]);
+            $book->test()->attach($id, ['date' => now(),"booked_date" => now(), "checked_out" => "false", "delivery_status" => "none"]);
 
         }
         else {
@@ -63,7 +62,21 @@ class BookingsController extends Controller
 
     public function adminDeliver($id)
     {
+        DB::update('UPDATE patient_test SET patient_test.delivery_status = "pending" WHERE patient_test.patient_id = ?', [$id]);
+        return response()->json(["status" => "success","response" => "Delivery on the way"]);
+    }
+
+    public function decline($id) {
+
         DB::delete('DELETE FROM patient_test WHERE patient_test.patient_id = ?', [$id]);
+
+        return response()->json(["status" => "success","response" => "Booking deleted !"]);
+
+    }
+
+    public function success($id)
+    {
+        DB::update('UPDATE patient_test SET patient_test.delivery_status = "delivered" WHERE patient_test.patient_id = ?', [$id]);
         return response()->json(["status" => "success","response" => "Delivery on the way"]);
     }
 
