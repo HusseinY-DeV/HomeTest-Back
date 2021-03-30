@@ -14,16 +14,16 @@ Route::post('patient/login',"PatientsController@login");
 
 
 // TOKEN verification apis (additional security)
-Route::group(["prefix" => "verify/admin","middleware" => "assign.guard:user"],function () {
+Route::group(["prefix" => "verify/admin","middleware" => ""],function () {
     Route::get('',"VerifyTokenController@users");
 });
 
-Route::group(["prefix" => "verify/patient","middleware" => "assign.guard:patient"],function () {
+Route::group(["prefix" => "verify/patient","middleware" => ""],function () {
     Route::get('',"VerifyTokenController@patients");
 });
 
 
-Route::group(["prefix" => "admin","middleware" => "assign.guard:user"],function () {
+Route::group(["prefix" => "admin","middleware" => ""],function () {
     Route::get('/',"UsersController@index");
     Route::get('/{id}',"UsersController@show");
     Route::put('/{id}',"UsersController@edit");
@@ -39,7 +39,7 @@ Route::group(["prefix" => "admin","middleware" => "assign.guard:user"],function 
 
 // Posts api routes (Admins)
 
-Route::group(["prefix" => "post","middleware" => "assign.guard:user"],function () {
+Route::group(["prefix" => "post","middleware" => ""],function () {
     Route::post("/admin/{id}","PostsController@create");
     Route::put("/{id}","PostsController@edit");
     Route::delete("/{id}","PostsController@destroy");
@@ -49,14 +49,14 @@ Route::group(["prefix" => "post","middleware" => "assign.guard:user"],function (
 
 // Tests api routes (Admins)
 
-Route::group(["prefix" => "tests","middleware" => "assign.guard:user"],function () {
+Route::group(["prefix" => "tests","middleware" => ""],function () {
     Route::get("/","TestsController@index");
     Route::post("/","TestsController@create");
     Route::put("/{id}","TestsController@edit");
     Route::delete("/{id}","TestsController@destroy");
 });
 
-Route::group(["prefix" => "bookings","middleware" => "assign.guard:user"],function () {
+Route::group(["prefix" => "bookings","middleware" => ""],function () {
     Route::get("/","BookingsController@index");
     Route::get("/{id}","BookingsController@show");
 });
@@ -70,7 +70,7 @@ Route::delete("/decline/{id}","BookingsController@decline");
 
 // Patient api routes
 
-Route::group(["prefix" => "patient","middleware" => "assign.guard:patient"],function () {
+Route::group(["prefix" => "patient","middleware" => ""],function () {
 
     Route::get("/{id}","PatientsController@show");
     Route::put("/phone/{id}","PatientsController@editPhone");
@@ -80,13 +80,13 @@ Route::group(["prefix" => "patient","middleware" => "assign.guard:patient"],func
 
 // Posts api routes (Admins)
 
-Route::group(["prefix" => "posts","middleware" => "assign.guard:patient"],function () {
+Route::group(["prefix" => "posts","middleware" => ""],function () {
     Route::get("","PostsController@indexAll");
     Route::get("/{id}","PostsController@getById");
 });
 
 
-Route::group(["prefix" => "location/patient","middleware" => "assign.guard:patient"],function () {
+Route::group(["prefix" => "location/patient","middleware" => ""],function () {
     Route::post("/{id}","PatientsController@addLocation");
 });
 
@@ -95,7 +95,7 @@ Route::group(["prefix" => "location/patient","middleware" => "assign.guard:patie
 
 // Tests api routes (Patients)
 
-Route::group(["prefix" => "tests/patient","middleware" => "assign.guard:patient"],function () {
+Route::group(["prefix" => "tests/patient","middleware" => ""],function () {
 
     Route::get("","TestsController@index");
 
@@ -103,7 +103,7 @@ Route::group(["prefix" => "tests/patient","middleware" => "assign.guard:patient"
 
 // Bookings api routes (Patients)
 
-Route::group(["prefix" => "patient/bookings","middleware" => "assign.guard:patient"],function () {
+Route::group(["prefix" => "patient/bookings","middleware" => ""],function () {
     Route::post("/{ID}/{id}","BookingsController@book");
 });
 

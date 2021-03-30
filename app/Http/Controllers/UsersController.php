@@ -72,7 +72,7 @@ class UsersController extends Controller
     {
         // This function checks if a user exist so we can login him in with a token
         $credentials = request(['username', 'password']);
-        if (!$token = Auth::guard('user')->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -82,7 +82,7 @@ class UsersController extends Controller
     public function logout()
     {
         // This function checks if a user exist so we can log him out and terminate the token
-        Auth::guard('user')->logout();
+        auth()->logout();
         return response()->json(['message' => 'Successfully logged out']);
     }
 
@@ -92,8 +92,8 @@ class UsersController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in'   => Auth::guard('user')->factory()->getTTL() * 60,
-            'id' => Auth::guard('user')->id()
+            'expires_in'   => auth()->factory()->getTTL() * 60,
+            'id' => auth()->id()
         ]);
     }
 

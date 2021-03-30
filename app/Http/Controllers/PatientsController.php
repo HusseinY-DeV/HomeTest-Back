@@ -68,7 +68,7 @@ class PatientsController extends Controller
         $patient->phone_number = $request->phone_number;
         $patient->location_id = 0;
         $patient->save();
-        $token = Auth::guard('patient')->login($patient);
+        $token = auth()->login($patient);
         return response()->json(["status" => "success","response" => $this->respondWithToken($token)]);
     }
 
@@ -76,7 +76,7 @@ class PatientsController extends Controller
     {
         // This function checks if a user exist so we can login him in with a token
         $credentials = request(['username', 'password']);
-        if (!$token = Auth::guard('patient')->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json(['status' => 'fail',"response" => "Wrong username or password"], 401);
         }
 
@@ -86,7 +86,7 @@ class PatientsController extends Controller
     public function logout()
     {
         // This function checks if a user exist so we can log him out and terminate the token
-        Auth::guard('patient')->logout();
+        auth()->logout();
         return response()->json(['message' => 'Successfully logged out']);
     }
 
@@ -96,8 +96,8 @@ class PatientsController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in'   => Auth::guard('patient')->factory()->getTTL() * 60,
-            'id' => Auth::guard('patient')->id()
+            'expires_in'   => auth()->factory()->getTTL() * 60,
+            'id' => auth()->id()
         ]);
     }
 }
