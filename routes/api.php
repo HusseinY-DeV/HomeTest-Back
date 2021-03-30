@@ -49,8 +49,8 @@ Route::group(["prefix" => "post","middleware" => ""],function () {
 
 // Tests api routes (Admins)
 
+Route::get("/tests","TestsController@index");
 Route::group(["prefix" => "tests","middleware" => ""],function () {
-    Route::get("/","TestsController@index");
     Route::post("/","TestsController@create");
     Route::put("/{id}","TestsController@edit");
     Route::delete("/{id}","TestsController@destroy");
