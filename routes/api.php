@@ -23,16 +23,16 @@ Route::group(["prefix" => "verify/patient","middleware" => ""],function () {
 });
 
 
+Route::get('admin',"App\Http\Controllers\UsersController@index");
+Route::post('admin/logout',"App\Http\Controllers\UsersController@logout");
+Route::get("admin/my-posts/{id}","App\Http\Controllers\PostsController@getPostsById");
+Route::get("admin/all/all-bookings","App\Http\Controllers\BookingsController@index");
 Route::group(["prefix" => "admin","middleware" => ""],function () {
-    Route::get('/',"App\Http\Controllers\UsersController@index");
     Route::get('/{id}',"App\Http\Controllers\UsersController@show");
     Route::put('/{id}',"App\Http\Controllers\UsersController@edit");
-    Route::post('/logout',"App\Http\Controllers\UsersController@logout");
     Route::post('/',"App\Http\Controllers\UsersController@create");
     Route::delete('/{id}',"App\Http\Controllers\UsersController@destroy");
-    Route::get("/my-posts/{id}","App\Http\Controllers\PostsController@getPostsById");
     Route::get("/all/all-posts","App\Http\Controllers\PostsController@index");
-    Route::get("/all/all-bookings","App\Http\Controllers\BookingsController@index");
 });
 
 // _______________________________________________________
@@ -50,10 +50,10 @@ Route::group(["prefix" => "post","middleware" => ""],function () {
 // Tests api routes (Admins)
 
 Route::get("/tests","App\Http\Controllers\TestsController@index");
+Route::post("/tests","App\Http\Controllers\TestsController@create");
+Route::put("tests/{id}","App\Http\Controllers\TestsController@edit");
+Route::delete("tests/{id}","App\Http\Controllers\TestsController@destroy");
 Route::group(["prefix" => "tests","middleware" => ""],function () {
-    Route::post("/","App\Http\Controllers\TestsController@create");
-    Route::put("/{id}","App\Http\Controllers\TestsController@edit");
-    Route::delete("/{id}","App\Http\Controllers\TestsController@destroy");
 });
 
 Route::group(["prefix" => "bookings","middleware" => ""],function () {
