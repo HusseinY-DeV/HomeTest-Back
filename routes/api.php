@@ -5,34 +5,34 @@ use Illuminate\Support\Facades\Route;
 
 // Admin api routes
 
-Route::post('/login',"UsersController@login");
+Route::post('/login',"App\Http\Controllers\UsersController@login");
 
 // Patient api routes
 
-Route::post('patient/register',"PatientsController@register");
-Route::post('patient/login',"PatientsController@login");
+Route::post('patient/register',"App\Http\Controllers\PatientsController@register");
+Route::post('patient/login',"App\Http\Controllers\PatientsController@login");
 
 
 // TOKEN verification apis (additional security)
 Route::group(["prefix" => "verify/admin","middleware" => ""],function () {
-    Route::get('',"VerifyTokenController@users");
+    Route::get('',"App\Http\Controllers\VerifyTokenController@users");
 });
 
 Route::group(["prefix" => "verify/patient","middleware" => ""],function () {
-    Route::get('',"VerifyTokenController@patients");
+    Route::get('',"App\Http\Controllers\VerifyTokenController@patients");
 });
 
 
 Route::group(["prefix" => "admin","middleware" => ""],function () {
-    Route::get('/',"UsersController@index");
-    Route::get('/{id}',"UsersController@show");
-    Route::put('/{id}',"UsersController@edit");
-    Route::post('/logout',"UsersController@logout");
-    Route::post('/',"UsersController@create");
-    Route::delete('/{id}',"UsersController@destroy");
-    Route::get("/my-posts/{id}","PostsController@getPostsById");
-    Route::get("/all/all-posts","PostsController@index");
-    Route::get("/all/all-bookings","BookingsController@index");
+    Route::get('/',"App\Http\Controllers\UsersController@index");
+    Route::get('/{id}',"App\Http\Controllers\UsersController@show");
+    Route::put('/{id}',"App\Http\Controllers\UsersController@edit");
+    Route::post('/logout',"App\Http\Controllers\UsersController@logout");
+    Route::post('/',"App\Http\Controllers\UsersController@create");
+    Route::delete('/{id}',"App\Http\Controllers\UsersController@destroy");
+    Route::get("/my-posts/{id}","App\Http\Controllers\PostsController@getPostsById");
+    Route::get("/all/all-posts","App\Http\Controllers\PostsController@index");
+    Route::get("/all/all-bookings","App\Http\Controllers\BookingsController@index");
 });
 
 // _______________________________________________________
@@ -40,54 +40,54 @@ Route::group(["prefix" => "admin","middleware" => ""],function () {
 // Posts api routes (Admins)
 
 Route::group(["prefix" => "post","middleware" => ""],function () {
-    Route::post("/admin/{id}","PostsController@create");
-    Route::put("/{id}","PostsController@edit");
-    Route::delete("/{id}","PostsController@destroy");
-    Route::get("/{id}","PostsController@getById");
+    Route::post("/admin/{id}","App\Http\Controllers\PostsController@create");
+    Route::put("/{id}","App\Http\Controllers\PostsController@edit");
+    Route::delete("/{id}","App\Http\Controllers\PostsController@destroy");
+    Route::get("/{id}","App\Http\Controllers\PostsController@getById");
 });
 
 
 // Tests api routes (Admins)
 
-Route::get("/tests","TestsController@index");
+Route::get("/tests","App\Http\Controllers\TestsController@index");
 Route::group(["prefix" => "tests","middleware" => ""],function () {
-    Route::post("/","TestsController@create");
-    Route::put("/{id}","TestsController@edit");
-    Route::delete("/{id}","TestsController@destroy");
+    Route::post("/","App\Http\Controllers\TestsController@create");
+    Route::put("/{id}","App\Http\Controllers\TestsController@edit");
+    Route::delete("/{id}","App\Http\Controllers\TestsController@destroy");
 });
 
 Route::group(["prefix" => "bookings","middleware" => ""],function () {
-    Route::get("/","BookingsController@index");
-    Route::get("/{id}","BookingsController@show");
+    Route::get("/","App\Http\Controllers\BookingsController@index");
+    Route::get("/{id}","App\Http\Controllers\BookingsController@show");
 });
 
 
-Route::put("/admindeliver/{id}","BookingsController@adminDeliver");
+Route::put("/admindeliver/{id}","App\Http\Controllers\BookingsController@adminDeliver");
 
-Route::put("/adminsuccess/{id}","BookingsController@success");
+Route::put("/adminsuccess/{id}","App\Http\Controllers\BookingsController@success");
 
-Route::delete("/decline/{id}","BookingsController@decline");
+Route::delete("/decline/{id}","App\Http\Controllers\BookingsController@decline");
 
 // Patient api routes
 
 Route::group(["prefix" => "patient","middleware" => ""],function () {
 
-    Route::get("/{id}","PatientsController@show");
-    Route::put("/phone/{id}","PatientsController@editPhone");
-    Route::put("/password/{id}","PatientsController@editPassword");
-    Route::post("/logout","PatientsController@logout");
+    Route::get("/{id}","App\Http\Controllers\PatientsController@show");
+    Route::put("/phone/{id}","App\Http\Controllers\PatientsController@editPhone");
+    Route::put("/password/{id}","App\Http\Controllers\PatientsController@editPassword");
+    Route::post("/logout","App\Http\Controllers\PatientsController@logout");
 });
 
 // Posts api routes (Admins)
 
 Route::group(["prefix" => "posts","middleware" => ""],function () {
-    Route::get("","PostsController@indexAll");
-    Route::get("/{id}","PostsController@getById");
+    Route::get("","App\Http\Controllers\PostsController@indexAll");
+    Route::get("/{id}","App\Http\Controllers\PostsController@getById");
 });
 
 
 Route::group(["prefix" => "location/patient","middleware" => ""],function () {
-    Route::post("/{id}","PatientsController@addLocation");
+    Route::post("/{id}","App\Http\Controllers\PatientsController@addLocation");
 });
 
 
@@ -97,18 +97,18 @@ Route::group(["prefix" => "location/patient","middleware" => ""],function () {
 
 Route::group(["prefix" => "tests/patient","middleware" => ""],function () {
 
-    Route::get("","TestsController@index");
+    Route::get("","App\Http\Controllers\TestsController@index");
 
 });
 
 // Bookings api routes (Patients)
 
 Route::group(["prefix" => "patient/bookings","middleware" => ""],function () {
-    Route::post("/{ID}/{id}","BookingsController@book");
+    Route::post("/{ID}/{id}","App\Http\Controllers\BookingsController@book");
 });
 
-Route::get("/my/{id}","BookingsController@getMyBookings");
-Route::put("/deliver/{id}","BookingsController@deliver");
-Route::delete("/book/{id}/{tId}","BookingsController@deleteBook");
+Route::get("/my/{id}","App\Http\Controllers\BookingsController@getMyBookings");
+Route::put("/deliver/{id}","App\Http\Controllers\BookingsController@deliver");
+Route::delete("/book/{id}/{tId}","App\Http\Controllers\BookingsController@deleteBook");
 
 
